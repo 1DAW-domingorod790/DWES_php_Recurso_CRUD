@@ -14,7 +14,7 @@ function dump($var){
 
 function getFormularioMarkup() {
     $output = '';
-    $output .= '<form action="'.$_SERVER['PHP_SELF'].'" method="post">';
+    $output .= '<form action="'.procesarFormulario().'" method="post">';
     $output .= 'Nombre: <input type="text" name="nombre" required>';
     $output .= '<br>';
     $output .= 'Apellidos: <input type="text" name="apellidos" required>';
@@ -31,12 +31,10 @@ function getFormularioMarkup() {
                         </select>
                 </div>';
     $output .= '<br>';
-    $output .= 'Contraseña: <input type="pwd" name="contraseña" required>';
+    $output .= 'Contraseña: <input type="password" name="contraseña" required>';
     $output .= '<br>';
     $output .= '<input type="submit" value="Crear usuario">';
     $output .= '</form>';
-
-    procesarFormulario();
 
     return $output;
 }
@@ -44,7 +42,26 @@ function getFormularioMarkup() {
 //LÓGICA DE NEGOCIO
 function procesarFormulario () {
     if (!empty($_POST)){
-        
+        $archivoLeer = fopen('users.csv', 'r');
+        $id = 1;
+        while (fgetcsv($archivoLeer)) {
+            $id++;
+        }
+        fclose($archivoLeer);
+        $data = array (
+            'id' => $id,
+            'nombre' => $_POST['nombre'],
+            'email' => $_POST['email'],
+            'rol' => $_POST['rol'],
+            'fecha de alta' => date("Y-m-d H:i:s")
+        );
+        $archivoEscribir = fopen('users.csv', 'a+');
+        if ($id > 1) {
+            fwrite($archivoEscribir, "\n".json_encode($data));
+        }else{
+            fwrite($archivoEscribir, json_encode($data));
+        }
+        fclose($archivoEscribir);
     }else {
         dump("no hay post.");
     }
@@ -53,8 +70,6 @@ function procesarFormulario () {
 
 //LÓGICA DE PRESENTACIÓN
 $formularioMarkup = getFormularioMarkup();
-$post = leerPOST();
-
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +85,6 @@ $post = leerPOST();
     <div class="container-formulario">
         <?php
             echo $formularioMarkup;
-            echo $post;
         ?>
     </div>
 </body>
