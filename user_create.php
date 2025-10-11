@@ -5,8 +5,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 function dump($var){
-    global $miVariable;
-    echo $miVariable;
     echo '<pre>'.print_r($var,1).'</pre>';
 }
 
@@ -43,11 +41,15 @@ function getFormularioMarkup() {
 function procesarFormulario () {
     if (!empty($_POST)){
         $archivoLeer = fopen('users.csv', 'r');
+        $archivoEscribir = fopen('users.csv', 'a');
         $id = 1;
-        while (fgetcsv($archivoLeer)) {
+        if (empty(fgetcsv($archivoLeer))) {
+            fwrite($archivoEscribir, "id,nombre,email,rol,fecha de alta\n");
+        } else {
+            while (fgetcsv($archivoLeer)) {
             $id++;
         }
-        fclose($archivoLeer);
+        }
         $data = array (
             'id' => $id,
             'nombre' => $_POST['nombre'],
@@ -55,15 +57,8 @@ function procesarFormulario () {
             'rol' => $_POST['rol'],
             'fecha de alta' => date("Y-m-d H:i:s")
         );
-        $archivoEscribir = fopen('users.csv', 'a+');
-        if ($id > 1) {
-            fwrite($archivoEscribir, "\n".json_encode($data));
-        }else{
-            fwrite($archivoEscribir, json_encode($data));
-        }
+        fputcsv($archivoEscribir, array_values($data));
         fclose($archivoEscribir);
-    }else {
-        dump("no hay post.");
     }
 }
 

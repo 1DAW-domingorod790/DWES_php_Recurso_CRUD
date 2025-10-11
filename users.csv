@@ -1,3 +1,4 @@
-{"id":1,"nombre":"Domingo","email":"drodrod463@g.educaand.es","rol":"administrador","fecha de alta":"2025-10-11 12:50:27"}
-{"id":2,"nombre":"Carmelo","email":"dominicke988@gmail.com","rol":"moderador","fecha de alta":"2025-10-11 12:50:38"}
-{"id":3,"nombre":"Miranda","email":"latigosamira@gmail.es","rol":"usuario","fecha de alta":"2025-10-11 12:52:31"}
+id,nombre,email,rol,fecha de alta
+1,Domingo,drodrod463@g.educaand.es,administrador,"2025-10-11 14:27:05"
+2,Carmelo,dominicke988@gmail.com,usuario,"2025-10-11 14:27:14"
+3,Nerea,domingorodriguez139@gmail.com,moderador,"2025-10-11 14:27:27"
