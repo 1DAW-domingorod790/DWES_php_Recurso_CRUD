@@ -44,7 +44,7 @@ function procesarFormulario () {
         $archivoEscribir = fopen('users.csv', 'a');
         $id = 1;
         if (empty(fgetcsv($archivoLeer))) {
-            fwrite($archivoEscribir, "id,nombre,email,rol,fecha de alta\n");
+            fwrite($archivoEscribir, "id,nombre,apellidos,email,rol,fecha de alta\n");
         } else {
             while (fgetcsv($archivoLeer)) {
             $id++;
@@ -53,6 +53,7 @@ function procesarFormulario () {
         $data = array (
             'id' => $id,
             'nombre' => $_POST['nombre'],
+            'apellidos' => $_POST['apellidos'],
             'email' => $_POST['email'],
             'rol' => $_POST['rol'],
             'fecha de alta' => date("Y-m-d H:i:s")

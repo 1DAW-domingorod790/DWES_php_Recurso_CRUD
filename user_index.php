@@ -16,7 +16,7 @@ function getUsuariosMarkup() {
 
     while (($fila = fgetcsv($archivo)) !== false) {
         $data = array_combine($keys, $fila);
-        $output .= '<ol><h2>'.$data['nombre'].'</h2></ol>';
+        $output .= '<ol><h2>'.$data['nombre'].' '.$data['apellidos'].'</h2></ol>';
         $output .= '<div class="usuario">';
             $output .= '<div class="datos-usuario">';
                 $output .= '<li><p><b>Email</b>: '.$data['email'].'</p></li>';
