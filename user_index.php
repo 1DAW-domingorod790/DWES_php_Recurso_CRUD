@@ -16,18 +16,27 @@ function getUsuariosMarkup() {
 
     while (($fila = fgetcsv($archivo)) !== false) {
         $data = array_combine($keys, $fila);
-        dump($data);
+        $output .= '<ol><h2>'.$data['nombre'].'</h2></ol>';
         $output .= '<div class="usuario">';
-            $output .= '<h1>'.$data['nombre'].'</h1>';
             $output .= '<div class="datos-usuario">';
-                $output .= '<p>Email: '.$data['email'].'</p>';
-                $output .= '<p>Rol: '.$data['rol'].'</p>';
-                $output .= '<p>Alta: '.$data['fecha de alta'].'</p>';
+                $output .= '<li><p><b>Email</b>: '.$data['email'].'</p></li>';
+                $output .= '<li><p><b>Rol</b>: '.$data['rol'].'</p></li>';
+                $output .= '<li><p><b>Fecha de alta: </b>: '.$data['fecha de alta'].'</p></li>';
             $output .= '</div>';
-
+            $output .= '<div class="boton-info">';
+                $output .= '<form action="user_info.php?id='.$data['id'].'" method="post">';
+                    $output .= '<input type="submit" value="Ver info">';
+                $output .= '</form>';
+                $output .= '<form action="user_edit.php?id='.$data['id'].'" method="post">';
+                    $output .= '<input type="submit" value="Editar">';
+                $output .= '</form>';
+                $output .= '<form action="user_delete.php?id='.$data['id'].'" method="post">';
+                    $output .= '<input type="submit" value="Eliminar">';
+                $output .= '</form>';
+            $output .= '</div>';
         $output .= '</div>';
     }
-
+    fclose($archivo);
     
     return $output;
 }
@@ -58,6 +67,29 @@ $usuariosMarkup = getUsuariosMarkup();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users info</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <style>
+        .container-usuario {
+            padding: 20px;
+        }
+        .usuario {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+        }
+        .datos-usuario {
+            padding: 20px;
+            width: 100%;
+        }
+        .boton-info {
+            width: 100%;
+            place-items: center;
+        }
+        .boton-info input {
+            width: 120px;
+        }
+    </style>
+
 </head>
 <body>
     <h1>USUARIOS CREADOS</h1>
