@@ -1,0 +1,144 @@
+/* ---------- Reset básico ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+               "Noto Sans", "Liberation Sans", sans-serif,
+               "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+}
+
+/* ---------- Contenedor principal ---------- */
+.main {
+  width: 350px;
+  height: 500px;
+  background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") 
+              no-repeat center/cover;
+  border-radius: 10px;
+  box-shadow: 5px 20px 50px #000;
+  overflow: hidden;
+}
+
+.main form {
+  overflow: visible;
+}
+
+/* ---------- Checkbox oculto ---------- */
+#chk {
+  display: none;
+}
+
+/* ---------- Signup contenedor ---------- */
+.signup {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Etiquetas ---------- */
+label {
+  color: #fff;
+  font-size: 2.3em;
+  justify-content: center;
+  display: flex;
+  margin: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .5s ease-in-out;
+}
+
+/* ---------- Inputs de texto ---------- */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  display: block;
+  width: 75%;
+  margin: 12px auto;
+  padding: 10px 12px;
+  font-size: 1rem;
+  line-height: 1.2;
+  background: rgba(224, 222, 222, 0.95);
+  color: #000;                  /* ✅ texto visible */
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: none;
+  transition: box-shadow 0.18s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+  box-shadow: 0 0 6px rgba(37, 117, 252, 0.4);
+}
+
+/* ---------- Botón submit ---------- */
+input[type="submit"] {
+  display: block;
+  width: 75%;
+  margin: 18px auto 0;
+  padding: 12px 18px;
+  background: linear-gradient(90deg, #2575fc, #1e5ed6);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: normal;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(37, 117, 252, 0.28);
+  transition: transform 0.08s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  white-space: normal;
+  overflow: visible;
+}
+
+input[type="submit"]:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(90deg, #2b85ff, #236dd8);
+}
+
+input[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(37, 117, 252, 0.18);
+}
+
+select {
+  display: block;
+  width: 75%;
+  margin: 12px auto;
+  padding: 10px 12px;
+  font-size: 1rem;
+  line-height: 1.2;
+  background: rgba(224, 222, 222, 0.95);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  appearance: none;            /* quita estilo por defecto del navegador */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #555 50%), 
+                    linear-gradient(135deg, #555 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% - 3px), 
+                       calc(100% - 15px) calc(50% - 3px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+select:focus {
+  box-shadow: 0 0 6px rgba(37, 117, 252, 0.4);
+}

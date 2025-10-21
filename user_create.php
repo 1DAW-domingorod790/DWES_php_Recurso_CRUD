@@ -13,25 +13,19 @@ function dump($var){
 function getFormularioMarkup() {
     $output = '';
     $output .= '<form action="'.procesarFormulario().'" method="post">';
-    $output .= 'Nombre: <input type="text" name="nombre" required>';
-    $output .= '<br>';
-    $output .= 'Apellidos: <input type="text" name="apellidos" required>';
-    $output .= '<br>';
-    $output .= 'Correo electrónico: <input type="email" name="email" required>';
-    $output .= '<br>';
-    $output .= '<div class="form-group">
-                        Selecciona tu rol:
-                        <select name="rol" class="form-control">
-                            <option value="">Seleccione un rol</option>
-                            <option value="administrador">Administrador</option>
-                            <option value="usuario">Usuario</option>
-                            <option value="moderador">Moderador</option>
-                        </select>
-                </div>';
-    $output .= '<br>';
-    $output .= 'Contraseña: <input type="password" name="contraseña" required>';
-    $output .= '<br>';
-    $output .= '<input type="submit" value="Crear usuario">';
+
+    $output .= '<label for="chk" aria-hidden="true">Sign up</label>
+                <input type="text" name="nombre" placeholder="Nombre" required>
+                <input type="text"  name="apellidos" placeholder="Apellidos" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <select name="rol" required>
+                    <option value="" disabled selected>Selecciona un rol</option>
+                    <option value="usuario">Usuario</option>
+                    <option value="administrador">Administrador</option>
+                    <option value="moderador">Moderador</option>
+                </select>
+                <input type="password" name="contrasena" placeholder="Contraseña" required>
+                <input type="submit" value="Crear Usuario">';
     $output .= '</form>';
 
     return $output;
@@ -75,13 +69,16 @@ $formularioMarkup = getFormularioMarkup();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create user</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="user_create_styles.css">
 </head>
 <body>
-    <h1>CREAR USUARIO</h1>
-    <div class="container-formulario">
-        <?php
-            echo $formularioMarkup;
-        ?>
+    <div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+            <div class="signup">
+                <?php
+                    echo $formularioMarkup;
+                ?>
+            </div>
     </div>
 </body>
 </html>

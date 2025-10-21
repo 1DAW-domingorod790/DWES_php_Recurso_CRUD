@@ -13,25 +13,18 @@ function getFormularioMarkup() {
     $userData = getUserData($_GET['id']);
     $output = '';
     $output .= '<form action="'.procesarFormulario($_GET['id']).'" method="post">';
-    $output .= 'Nombre: <input type="text" name="nombre" value="'.$userData['nombre'].'" required>';
-    $output .= '<br>';
-    $output .= 'Apellidos: <input type="text" name="apellidos" value="'.$userData['apellidos'].'"  required>';
-    $output .= '<br>';
-    $output .= 'Correo electrónico: <input type="email" name="email" value="'.$userData['email'].'"  required>';
-    $output .= '<br>';
-    $output .= '<div class="form-group">
-                        Selecciona tu rol:
-                        <select name="rol" class="form-control">
-                            <option value="">Seleccione un rol</option>
-                            <option value="administrador">Administrador</option>
-                            <option value="usuario">Usuario</option>
-                            <option value="moderador">Moderador</option>
-                        </select>
-                </div>';
-    $output .= '<br>';
-    $output .= 'Contraseña: <input type="password" name="contraseña" required>';
-    $output .= '<br>';
-    $output .= '<input type="submit" value="Confirmar cambios">';
+    $output .= '<label for="chk" aria-hidden="true">Edit info</label>
+                <input type="text" name="nombre" value="'.$userData['nombre'].'" required>
+                <input type="text"  name="apellidos" value="'.$userData['apellidos'].'" required>
+                <input type="email" name="email" value="'.$userData['email'].'" required>
+                <select name="rol" required>
+                    <option value="" disabled selected>'.$userData['rol'].'</option>
+                    <option value="usuario">Usuario</option>
+                    <option value="administrador">Administrador</option>
+                    <option value="moderador">Moderador</option>
+                </select>
+                <input type="password" placeholder="Contraseña" name="contrasena" required>
+                <input type="submit" value="Confirmar cambios">';
     $output .= '</form>';
     return $output;
 }
@@ -83,12 +76,16 @@ $userMarkup = getFormularioMarkup();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit user</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="user_create_styles.css">
 </head>
 <body>
-    <h1>EDITAR USUARIO</h1>
-    <?php
-        echo $userMarkup;
-    ?>
+    <div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+            <div class="signup">
+                <?php
+                    echo $userMarkup;
+                ?>
+            </div>
+    </div>
 </body>
 </html>
