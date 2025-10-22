@@ -44,9 +44,7 @@ function getUsuariosMarkup() {
 }
 
 function getBotonCrearUsuario() {
-    return '<form action="user_create.php" method="post">
-                <input type="submit" value="Crear nuevo usuario">
-            </form>';
+    return '<button><a href="user_create.php" style="color: black; text-decoration: none">Crear nuevo usuario</a></button>';
 }
 
 $usuariosMarkup = getUsuariosMarkup();
@@ -88,6 +86,7 @@ $botonCrearUsuario = getBotonCrearUsuario();
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             justify-content: center;
+            place-items: center;
         }
 
         /* ==== Tarjeta de usuario ==== */
@@ -158,6 +157,10 @@ $botonCrearUsuario = getBotonCrearUsuario();
             .user-actions {
                 flex-direction: column;
             }
+        }
+
+        .crear-usuario{
+            color: black;
         }
     </style>
 </head>

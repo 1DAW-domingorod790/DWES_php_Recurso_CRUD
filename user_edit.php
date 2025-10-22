@@ -60,6 +60,9 @@ function procesarFormulario($id) {
         
         fclose($archivoLeer);
         fclose($archivoEscribir);
+
+        header("HTTP/1.1 308 Permanent Redirect");
+        header('Location: ./user_index.php?row=0&col=0');
     }
 }
 
