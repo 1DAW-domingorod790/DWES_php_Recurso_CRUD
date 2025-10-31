@@ -16,21 +16,19 @@ function getMensajeMarkup () {
     $archivoLeer = fopen("users.csv", 'r');
     $keys = fgetcsv($archivoLeer);
 
-    $texto .= 'id,nombre,apellidos,email,rol,fecha de alta'."\n";
+    $texto .= 'id,nombre,apellidos,email,rol,fecha de alta,foto'."\n";
     while($values = fgetcsv($archivoLeer)) {
         // dump($values);
         $user = array_combine($keys, $values);
         if ($user['id'] != $_GET['id']) {
-            $id = $user['id'];
-            if($encontrado) {
-                $id--;
-            }
-            $texto .= $id.",".$user['nombre'].",".$user['apellidos'].",".$user['email'].",".$user['rol'].",".$user['fecha de alta']."\n";
+            $texto .= $user['id'].",".$user['nombre'].",".$user['apellidos'].",".$user['email'].",".$user['rol'].",".$user['fecha de alta']."\n";
         }else{
             $encontrado = true;
             $nombreUsuarioEliminado .= $user['nombre'] ." ". $user['apellidos'];
+            unlink('img/'.$user['foto']);
         }
     }
+    
     // dump($texto);
     $archivoEscribir = fopen("users.csv", 'w');
     fwrite($archivoEscribir, $texto);

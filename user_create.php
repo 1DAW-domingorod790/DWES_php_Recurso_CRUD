@@ -4,6 +4,14 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+function customError($errno, $errstr) {
+    echo "<b>Error:</b> [$errno] $errstr<br>";
+    echo "Ending Script";
+    die();
+}
+
+set_error_handler("customError");
+
 function dump($var){
     echo '<pre>'.print_r($var,1).'</pre>';
 }
@@ -12,7 +20,7 @@ function dump($var){
 
 function getFormularioMarkup() {
     $output = '';
-    $output .= '<form action="'.procesarFormulario().'" method="post">';
+    $output .= '<form action="'.procesarFormulario().'" method="post" enctype="multipart/form-data">';
 
     $output .= '<label for="chk" aria-hidden="true">Sign up</label>
                 <input type="text" name="nombre" placeholder="Nombre" required>
@@ -24,7 +32,7 @@ function getFormularioMarkup() {
                     <option value="administrador">Administrador</option>
                     <option value="moderador">Moderador</option>
                 </select>
-                <input type="password" name="contrasena" placeholder="Contraseña" required>
+                <input type="file" name="foto">
                 <input type="submit" value="Crear Usuario">';
     $output .= '</form>';
 
@@ -36,27 +44,40 @@ function procesarFormulario () {
     if (!empty($_POST)){
         $archivoLeer = fopen('users.csv', 'r');
         $archivoEscribir = fopen('users.csv', 'a');
+        
         $id = 1;
-        if (empty(fgetcsv($archivoLeer))) {
-            fwrite($archivoEscribir, "id,nombre,apellidos,email,rol,fecha de alta\n");
-        } else {
-            while (fgetcsv($archivoLeer)) {
-            $id++;
-        }
-        }
+        $archivoIDleer = fopen('id.csv', 'r');
+        $id = fgetcsv($archivoIDleer);
+        $idAescribir = ($id[0]+1);
+        // dump($id);
         $data = array (
-            'id' => $id,
+            'id' => $idAescribir,
             'nombre' => $_POST['nombre'],
             'apellidos' => $_POST['apellidos'],
             'email' => $_POST['email'],
             'rol' => $_POST['rol'],
-            'fecha de alta' => date("Y-m-d H:i:s")
+            'fecha de alta' => date("Y-m-d H:i:s"),
+            'foto' => $_FILES['foto']['name']
         );
+
+        if (filesize('users.csv') === 0){
+            fputcsv($archivoEscribir, array_keys($data));
+        }
+
         fputcsv($archivoEscribir, array_values($data));
+
         fclose($archivoEscribir);
+        fclose($archivoIDleer);
+        $archivoIDescribir = fopen("id.csv", 'w');
+        fwrite($archivoIDescribir, $idAescribir);
+        fclose($archivoIDescribir);
+
+        $directorioImg = 'img/';
+        $rutaFinal = $directorioImg . $_FILES['foto']['name'];
+        move_uploaded_file($_FILES['foto']['tmp_name'], $rutaFinal);
 
         header("HTTP/1.1 308 Permanent Redirect");
-        header('Location: ./user_index.php?row=0&col=0');
+        header('Location: ./user_index.php');
     }
 }
 

@@ -15,13 +15,14 @@ function getUserMarkup() {
         return '<p style="color:red;">No se ha proporcionado un ID de usuario.</p>';
     }
 
-    $userData = getUserData($id);
+    $userData = getUserData($id) ?? null;
     if (!$userData) {
         return '<p style="color:red;">Usuario no encontrado.</p>';
     }
 
     $output  = '<div class="user-card">';
     $output .= '<h1>'.$userData['nombre'].' '.$userData['apellidos'].'</h1>';
+    $output .= '<img src="img/'.$userData['foto'].'"><img>';
     $output .= '<ul class="user-info">';
     $output .= '<li><strong>ID de Usuario:</strong> '.$userData['id'].'</li>';
     $output .= '<li><strong>Correo electrónico:</strong> '.$userData['email'].'</li>';

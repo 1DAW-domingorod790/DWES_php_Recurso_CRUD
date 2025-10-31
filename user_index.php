@@ -9,7 +9,7 @@ function dump($var){
 }
 
 // PRESENTACIÓN
-function getUsuariosMarkup() {
+function getUsuariosMarkup() { 
     $output = '';
     $archivo = fopen('users.csv','r');
     $keys = fgetcsv($archivo);

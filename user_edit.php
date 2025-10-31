@@ -12,19 +12,33 @@ function dump($var){
 function getFormularioMarkup() {
     $userData = getUserData($_GET['id']);
     $output = '';
-    $output .= '<form action="'.procesarFormulario($_GET['id']).'" method="post">';
+    $output .= '<form action="'.procesarFormulario($_GET['id']).'" method="post" enctype="multipart/form-data">';
     $output .= '<label for="chk" aria-hidden="true">Edit info</label>
                 <input type="text" name="nombre" value="'.$userData['nombre'].'" required>
                 <input type="text"  name="apellidos" value="'.$userData['apellidos'].'" required>
                 <input type="email" name="email" value="'.$userData['email'].'" required>
-                <select name="rol" required>
-                    <option value="" disabled selected>'.$userData['rol'].'</option>
-                    <option value="usuario">Usuario</option>
+                <select name="rol" required>';
+    switch ($userData['rol']) {
+        case 'administrador':
+        $output .= '<option value="usuario">Usuario</option>
+                    <option value="administrador" selected>Administrador</option>
+                    <option value="moderador">Moderador</option>';
+            break;
+        case 'usuario':
+        $output .= '<option value="usuario" selected>Usuario</option>
                     <option value="administrador">Administrador</option>
-                    <option value="moderador">Moderador</option>
-                </select>
-                <input type="password" placeholder="Contraseña" name="contrasena" required>
-                <input type="submit" value="Confirmar cambios">';
+                    <option value="moderador">Moderador</option>';
+            break;
+        case 'moderador':
+        $output .= '<option value="usuario">Usuario</option>
+                    <option value="administrador">Administrador</option>
+                    <option value="moderador" selected>Moderador</option>';
+            break;
+    }
+                    
+            $output .= '</select>';
+            $output .= '<input type="file" name="foto">
+                        <input type="submit" value="Confirmar cambios">';
     $output .= '</form>';
     return $output;
 }
@@ -49,20 +63,29 @@ function procesarFormulario($id) {
         while($fila = fgetcsv($archivoLeer)){
             $data = array_combine($keys, $fila);
             if ($data['id'] == $id) {
-                $texto .= $id.",".$_POST['nombre'].",".$_POST['apellidos'].",".$_POST['email'].",".$_POST['rol'].",".$data['fecha de alta']."\n";
+                $texto .= $id.",".$_POST['nombre'].",".$_POST['apellidos'].",".$_POST['email'].",".$_POST['rol'].",".$data['fecha de alta'].',';
+                if (!empty($_FILES)){
+                    $texto .= $_FILES['foto']['name']."\n";
+                    $directorioImg = 'img/';
+                    $rutaFinal = $directorioImg . $_FILES['foto']['name'];
+                    move_uploaded_file($_FILES['foto']['tmp_name'], $rutaFinal);
+                    unlink('img/'.$data['foto']);
+                }else{
+                    $texto .= $data['foto']."\n";
+                }
             }else{
-                $texto .= $data['id'].",".$data['nombre'].",".$data['apellidos'].",".$data['email'].",".$data['rol'].",".$data['fecha de alta']."\n";
+                $texto .= $data['id'].",".$data['nombre'].",".$data['apellidos'].",".$data['email'].",".$data['rol'].",".$data['fecha de alta'].$data['foto']."\n";
             }
         }
         $archivoEscribir = fopen('users.csv', 'w');
-        fwrite($archivoEscribir, 'id,nombre,apellidos,email,rol,fecha de alta'."\n");
+        fwrite($archivoEscribir, 'id,nombre,apellidos,email,rol,fecha de alta,foto'."\n");
         fwrite($archivoEscribir, $texto);
         
         fclose($archivoLeer);
         fclose($archivoEscribir);
 
         header("HTTP/1.1 308 Permanent Redirect");
-        header('Location: ./user_index.php?row=0&col=0');
+        header('Location: ./user_index.php');
     }
 }
 
